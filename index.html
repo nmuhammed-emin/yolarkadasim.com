@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="theme-color" content="#f6f5f0" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#18221d" media="(prefers-color-scheme: dark)">
+  <meta name="description" content="Türkiye'de keşfedilecek rotaları, doğa harikalarını ve tarihî durakları keşfet.">
+  <meta property="og:title" content="Yol Arkadaşım — Türkiye'yi keşfet">
+  <meta property="og:description" content="Türkiye'de keşfedilecek rotaları, doğa harikalarını ve tarihî durakları keşfet.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1570939274717-7eda259b50ed?auto=format&amp;fit=crop&amp;w=1200&amp;q=85">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://SITE_ADRESI/">
+  <meta property="og:locale" content="tr_TR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://SITE_ADRESI/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%232f5945'/%3E%3Ctext x='32' y='47' text-anchor='middle' font-family='Georgia,serif' font-size='48' font-weight='700' fill='%23d3ec8b'%3Ey.%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'%3E%3Crect width='180' height='180' rx='40' fill='%232f5945'/%3E%3Ctext x='90' y='132' text-anchor='middle' font-family='Georgia,serif' font-size='130' font-weight='700' fill='%23d3ec8b'%3Ey.%3C/text%3E%3C/svg%3E">
+  <title>Yol Arkadaşım — Türkiye'yi keşfet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="" defer></script>
+  <script src="official-attractions.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">İçeriğe geç</a>
+  <noscript><p class="noscript-message">Bu site için JavaScript gerekli.</p></noscript>
+  <header class="site-header">
+    <a class="brand" href="#kesfet" aria-label="Yol Arkadaşım ana sayfa">
+      <span class="brand-mark" aria-hidden="true">y.</span>
+      <span id="brand-name">Yol Arkadaşım</span>
+    </a>
+    <nav class="main-nav" aria-label="Ana menü">
+      <a class="nav-link active" href="#kesfet">Keşfet</a>
+      <a class="nav-link" href="#rotalar">Rotalar</a>
+      <a class="nav-link" href="#kesif-araclari">Hava & harita</a>
+      <a class="nav-link" href="#geri-bildirim">İletişim</a>
+    </nav>
+    <div class="header-tools">
+      <label class="sr-only" id="language-label" for="language-select">Dil seçin</label>
+      <select id="language-select" class="header-select">
+        <option value="tr">TR</option><option value="en">EN</option><option value="ru">RU</option><option value="az">AZ</option>
+      </select>
+      <div class="clock-widget"><span id="clock-label">TÜRKİYE SAATİ</span><strong id="turkey-clock" aria-live="off">--:--:--</strong></div>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Temayı değiştir" aria-pressed="false"><span id="theme-icon" aria-hidden="true">☼</span></button>
+      <button class="saved-nav" id="saved-toggle" type="button" aria-pressed="false">
+        <span aria-hidden="true">♡</span><span id="saved-label">Kaydettiklerim</span> <span class="saved-count" id="saved-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <div class="notice-bar" role="note"><strong id="notice-title"><span aria-hidden="true">⚠</span> Güvenlik uyarısı</strong><span id="notice-copy">Sitede asla özel bilgilerinizi girmeyiniz, bu site sizlere tamamen ücretsiz bir şekilde kullanmanız için tasarlanmıştır.</span></div>
+    <section class="hero" id="kesfet">
+      <div class="hero-glow" aria-hidden="true"></div>
+      <div class="hero-content">
+        <p class="eyebrow hero-kicker"><span class="eyebrow-dot" aria-hidden="true"></span><span id="hero-kicker">Şehirler, binlerce hikâye</span></p>
+        <h1 id="hero-title">Yolun nereye<br>çıkarsa, <span>güzeldir.</span></h1>
+        <p class="hero-copy" id="hero-copy">Türkiye'nin saklı kalmış köşelerini, unutulmaz manzaralarını ve kendine özgü hikâyelerini keşfet.</p>
+        <form class="search-box" id="search-form" role="search">
+          <span class="search-icon" aria-hidden="true">⌕</span>
+          <label class="sr-only" for="city-search">İl veya gezilecek yer ara</label>
+          <input id="city-search" type="search" placeholder="Bir şehir ya da yer ara..." autocomplete="off">
+          <button type="submit"><span id="search-button-label">Keşfet</span> <span aria-hidden="true">↗</span></button>
+        </form>
+        <p class="search-hint"><span aria-hidden="true">✦</span> <span id="search-hint">Örnek: Kapadokya, İzmir, Pamukkale</span></p>
+      </div>
+      <div class="hero-art" role="img" aria-label="Kapadokya'da gün doğumunda balonlar">
+        <div class="hero-image"></div>
+        <div class="image-label"><span class="label-pin" aria-hidden="true">⌖</span><span><b id="hero-city">Kapadokya</b><small id="hero-region">Nevşehir, İç Anadolu</small></span></div>
+        <div class="hero-sticker"><span aria-hidden="true">✦</span><b id="hero-sticker">Her şehir<br>bir keşif.</b></div>
+        <div class="sun-disc" aria-hidden="true"></div>
+        <div class="hero-controls"><button type="button" id="hero-prev" aria-label="Önceki görsel"><span aria-hidden="true">‹</span></button><span id="hero-slide-count">-- / --</span><button type="button" id="hero-next" aria-label="Sonraki görsel"><span aria-hidden="true">›</span></button></div>
+      </div>
+      <a class="scroll-cue" href="#rotalar"><span></span> <span id="scroll-label">Aşağı kaydır</span></a>
+    </section>
+
+    <section class="explore-section" id="rotalar">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow section-eyebrow" id="routes-eyebrow">KENDİ ROTANI BUL</p>
+          <h2 id="routes-title">Türkiye seni <span>çağırıyor.</span></h2>
+        </div>
+        <p class="section-note" id="routes-note">İster hafta sonu kaçamağı, ister uzun bir yolculuk...<br>Bir sonraki güzel anın burada olabilir.</p>
+      </div>
+
+      <div class="filter-row">
+        <div class="category-filters" id="category-filters" role="group" aria-label="Gezi türüne göre filtrele">
+          <button class="filter-chip selected" data-category="all" type="button" aria-pressed="true"><span class="filter-label">Tümü</span> <span id="all-city-count"></span></button>
+          <button class="filter-chip" data-category="nature" type="button" aria-pressed="false"><span aria-hidden="true">♧</span> <span class="filter-label">Doğa</span></button>
+          <button class="filter-chip" data-category="history" type="button" aria-pressed="false"><span aria-hidden="true">⌂</span> <span class="filter-label">Tarih</span></button>
+          <button class="filter-chip" data-category="sea" type="button" aria-pressed="false"><span aria-hidden="true">≈</span> <span class="filter-label">Deniz</span></button>
+          <button class="filter-chip" data-category="food" type="button" aria-pressed="false"><span aria-hidden="true">✳</span> <span class="filter-label">Lezzet</span></button>
+        </div>
+        <label class="sort-control" id="sort-label" for="sort-select">Sırala
+          <select id="sort-select">
+            <option value="featured">Öne çıkanlar</option>
+            <option value="az">İsim (A–Z)</option>
+          </select>
+        </label>
+        <label class="sort-control" id="region-label" for="region-select">Bölge
+          <select id="region-select">
+            <option value="all">Tüm bölgeler</option>
+            <option value="Marmara">Marmara</option><option value="Ege">Ege</option><option value="Akdeniz">Akdeniz</option><option value="İç Anadolu">İç Anadolu</option><option value="Karadeniz">Karadeniz</option><option value="Doğu Anadolu">Doğu Anadolu</option><option value="Güneydoğu Anadolu">Güneydoğu Anadolu</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="results-summary" aria-live="polite">
+        <span id="results-label">İlham veren duraklar</span>
+        <span id="results-count"></span>
+      </div>
+      <div class="destination-grid" id="destination-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>
+        <span aria-hidden="true">⌕</span>
+        <h3 id="empty-title">Bu aramayla eşleşen bir yer bulamadık.</h3>
+        <p id="empty-copy">Başka bir şehir ya da gezi türü deneyebilirsin.</p>
+      </div>
+      <div class="load-more-wrap">
+        <button class="load-more" id="surprise-button" type="button"><span id="surprise-label">Beni şaşırt</span> <span aria-hidden="true">✦</span></button>
+        <button class="load-more" id="load-more" type="button"><span id="load-more-label">Tüm illeri keşfet</span> <span aria-hidden="true">↓</span></button>
+      </div>
+    </section>
+
+    <section class="fact-of-day" aria-live="polite">
+      <p class="eyebrow" id="fact-eyebrow">BİLİYOR MUYDUNUZ?</p>
+      <h2 id="fact-city">Türkiye'den bir şehir bilgisi</h2>
+      <p id="fact-text">Her ilin kendine özgü bir hikâyesi var.</p>
+    </section>
+
+    <section class="travel-tools" id="kesif-araclari">
+      <div class="section-heading">
+        <div><p class="eyebrow section-eyebrow" id="tools-eyebrow">YOLCULUĞUNU PLANLA</p><h2 id="tools-title">Sana göre <span>keşif.</span></h2></div>
+        <p class="section-note" id="tools-note">İl seç; hava durumuna, haritaya ve etkinlik aramalarına göz at.</p>
+      </div>
+      <p class="language-note" id="language-content-note">Şehir adları ve özel adlar özgün yazımıyla gösterilir.</p>
+      <div class="tool-grid">
+        <article class="tool-card preference-card">
+          <p class="eyebrow" id="preference-eyebrow">GEZİ TARZINI SEÇ</p><h3 id="preference-title">Nasıl bir yolculuk istersin?</h3>
+          <div class="preference-controls">
+            <label id="preference-label" for="preference-select">İlgi alanın</label>
+            <select id="preference-select">
+              <option value="nature">Doğa ve yaylalar</option><option value="sea">Deniz ve sahil</option><option value="history">Tarih ve kültür</option><option value="food">Yöresel lezzetler</option><option value="winter">Kış ve kayak</option>
+            </select>
+            <button type="button" class="action-button" id="recommend-button">Şehir öner</button>
+          </div>
+          <p class="recommendation-result" id="recommendation-result" aria-live="polite">Tercihine göre şehir önerilerini gör.</p>
+        </article>
+        <article class="tool-card weather-card">
+          <p class="eyebrow" id="weather-eyebrow">CANLI HAVA DURUMU</p><h3 id="weather-title">Şehir hava durumu</h3>
+          <label class="sr-only" for="weather-city">Hava durumu için il seçin</label>
+          <select id="weather-city"><option value="" selected disabled>Yükleniyor…</option></select>
+          <div class="weather-result" id="weather-result" aria-live="polite">Bir il seçerek güncel hava durumunu yükle.</div>
+          <small id="weather-source">Veri: Open-Meteo · İnternet bağlantısı gerekir.</small>
+        </article>
+        <article class="tool-card event-card">
+          <p class="eyebrow" id="events-eyebrow">ETKİNLİK & KONAKLAMA</p><h3 id="events-title">Planını doğrula</h3>
+          <p id="events-copy">Festival tarihleri ve otel iletişim bilgileri değişebilir. Güncel bilgi için seçtiğin ilin resmî kaynaklarını ve harita sonuçlarını kontrol et.</p>
+          <div class="link-actions"><a id="events-link" class="action-button" href="https://www.google.com/search?q=T%C3%BCrkiye+festival+etkinlik+takvimi" target="_blank" rel="noopener noreferrer"><span id="events-link-label">Etkinlikleri ara</span> <span aria-hidden="true">↗</span></a><a id="hotels-link" class="secondary-button" href="https://www.google.com/maps/search/otel+T%C3%BCrkiye" target="_blank" rel="noopener noreferrer"><span id="hotels-link-label">Konaklama bul</span> <span aria-hidden="true">↗</span></a></div>
+        </article>
+      </div>
+      <article class="tool-card map-card">
+        <div class="map-heading"><div><p class="eyebrow" id="map-eyebrow">TÜRKİYE HARİTASI</p><h3 id="map-title">İl seçerek haritada keşfet</h3></div>
+          <label id="map-layer-label" for="map-layer">Harita görünümü
+            <select id="map-layer"><option value="street">Sokak</option><option value="terrain">Arazi</option><option value="satellite">Uydu</option></select>
+          </label>
+        </div>
+        <div class="radar-controls">
+          <label class="radar-toggle" for="rain-radar-toggle"><input id="rain-radar-toggle" type="checkbox" checked> <span id="radar-label">Canlı yağış radarı</span></label>
+          <button type="button" class="secondary-button" id="radar-play" aria-pressed="false"><span id="radar-play-icon" aria-hidden="true">⏸</span> <span id="radar-play-label">Durdur</span></button>
+          <input id="radar-timeline" type="range" min="0" max="0" value="0" step="1" aria-label="Radar zaman çizelgesi">
+          <output id="radar-time">Radar bekleniyor…</output>
+        </div>
+        <p class="radar-note" id="radar-note">Kaynak: RainViewer · Radar yaklaşık 10 dakikada bir güncellenir.</p>
+        <div id="turkey-map" role="region" aria-label="İnteraktif Türkiye haritası"></div>
+        <p class="map-note" id="map-note">Harita OpenStreetMap, arazi ve uydu katmanlarıyla sunulur. Yerel ilçe ve hava/radar detayları için harita bağlantısını açın.</p>
+      </article>
+    </section>
+
+    <section class="quote-banner">
+      <div class="quote-icon" aria-hidden="true">✳</div>
+      <div>
+        <p class="eyebrow" id="quote-eyebrow">BİRAZ MERAK, BOLCA YOL</p>
+        <h2 id="quote-title">En güzel hikâyeler,<br><span>yola çıkınca başlar.</span></h2>
+      </div>
+      <a href="#kesfet" class="quote-link"><span id="quote-link-label">Yeni bir yer bul</span> <span aria-hidden="true">↗</span></a>
+      <div class="banner-scribble" aria-hidden="true">↗</div>
+    </section>
+
+    <section class="feedback-section" id="geri-bildirim">
+      <div><p class="eyebrow" id="feedback-eyebrow">BİZE YAZIN</p><h2 id="feedback-title">Bir önerin ya da şikâyetin mi var?</h2><p id="feedback-copy">Mesajın e-posta uygulamanızda hazırlanır; göndermeden önce gözden geçirip onaylayabilirsiniz. Bu form özel bilgi istemez.</p></div>
+      <form class="feedback-form" id="feedback-form">
+        <label id="feedback-type-label" for="feedback-type">Mesaj türü</label>
+        <select id="feedback-type" required><option value="Öneri">Öneri</option><option value="Şikâyet">Şikâyet</option><option value="İstek">İstek</option></select>
+        <label id="feedback-message-label" for="feedback-message">Mesajınız</label>
+        <textarea id="feedback-message" rows="4" maxlength="2000" placeholder="Öneri, şikâyet veya isteğinizi yazın..." required></textarea>
+        <button class="action-button" type="submit"><span id="feedback-submit-label">E-posta taslağı oluştur</span> <span aria-hidden="true">↗</span></button>
+        <small id="feedback-email-note">Alıcı adresi e-posta taslağında görüntülenir.</small>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="#kesfet"><span class="brand-mark" aria-hidden="true">y.</span><span id="footer-brand-name">Yol Arkadaşım</span></a>
+    <p><span id="footer-tagline">Güzel yollar, güzel hikâyeler.</span> <span aria-hidden="true">✦</span></p>
+    <span class="footer-location"><span id="developer-label">Geliştirici:</span> <strong>N.MUHAMMED</strong></span>
+    <p class="footer-legal" id="footer-sources">Kaynaklar ve lisanslar: <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://leafletjs.com/">Leaflet</a>, <a href="https://open-meteo.com/">Open-Meteo</a>, <a href="https://www.rainviewer.com/">RainViewer</a>, <a href="https://commons.wikimedia.org/">Wikimedia Commons</a> ve <a href="https://unsplash.com/">Unsplash</a> fotoğrafları.</p>
+    <p class="footer-legal" id="privacy-note">Gizlilik/KVKK: Open-Meteo, RainViewer, OpenStreetMap ve Google Fonts ile fotoğraf/harita sağlayıcılarına istek yapılır. Site kişisel veri toplamaz; bu sağlayıcılar bağlantı bilgilerini kendi politikalarına göre işleyebilir.</p>
+  </footer>
+
+  <dialog class="detail-dialog" id="detail-dialog" aria-labelledby="dialog-title">
+    <button class="dialog-close" type="button" aria-label="Pencereyi kapat"><span aria-hidden="true">×</span></button>
+    <div class="dialog-visual" id="dialog-visual"><span id="dialog-emoji" aria-hidden="true"></span><button type="button" class="gallery-arrow gallery-prev" id="gallery-prev" aria-label="Önceki fotoğraf"><span aria-hidden="true">‹</span></button><button type="button" class="gallery-arrow gallery-next" id="gallery-next" aria-label="Sonraki fotoğraf"><span aria-hidden="true">›</span></button><span class="gallery-credit" id="gallery-credit"></span></div>
+    <div class="dialog-content">
+      <p class="eyebrow" id="dialog-region"></p>
+      <p class="dialog-location" id="dialog-location"></p>
+      <h2 id="dialog-title"></h2>
+      <section class="city-fact">
+        <h3 id="dialog-fact-title">Şehrin özelliği</h3>
+        <p id="dialog-fact"></p>
+      </section>
+      <p class="dialog-description" id="dialog-description"></p>
+      <section class="city-fact season-card">
+        <h3 id="dialog-season-title">Ne zaman gidilmeli?</h3>
+        <p><strong id="season-months-label">Öne çıkan aylar:</strong> <span id="season-months"></span></p>
+        <p><strong id="season-climate-label">İklim notu:</strong> <span id="season-climate"></span></p>
+      </section>
+      <section class="city-fact emergency-card">
+        <h3 id="emergency-title">Acil durum ve faydalı bilgiler</h3>
+        <ul class="emergency-list" id="emergency-list"></ul>
+      </section>
+      <section class="city-fact packing-card">
+        <h3 id="packing-title">Yanına al</h3>
+        <div id="packing-list"></div>
+      </section>
+      <div class="stay-links"><a id="city-hotel-link" href="https://www.google.com/maps/search/otel+T%C3%BCrkiye" target="_blank" rel="noopener noreferrer"><span id="city-hotel-label">Bu ilde otel ara</span> <span aria-hidden="true">↗</span></a><a id="city-event-link" href="https://www.google.com/search?q=T%C3%BCrkiye+festival+etkinlik" target="_blank" rel="noopener noreferrer"><span id="city-event-label">Etkinlikleri ara</span> <span aria-hidden="true">↗</span></a></div>
+      <h3 id="dialog-spots-title">Buradayken gör</h3>
+      <p class="route-note" id="dialog-route-note">Bir durak için yol tarifini aç; Google Haritalar'da başlangıç noktanı ve ulaşım şeklini seçebilirsin.</p>
+      <ul class="spot-list" id="spot-list"></ul>
+      <button class="dialog-save" id="dialog-save" type="button"></button>
+    </div>
+  </dialog>
+</body>
+</html>
